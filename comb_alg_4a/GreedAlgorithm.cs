@@ -31,19 +31,30 @@ namespace comb_alg_4a
         
         private static int greedy(int[] set, int n, int sum) 
         {
+            int summary = 0;
             List<int> subSet = new List<int>();
-            int tmp = sum;
-            for (int i = 0; i < set.Length; i++)
+
+            for (int i = 0; i < n; i++)
             {
-                if (set[i] <= tmp)
+                int tmp = sum;
+                subSet.Clear();
+                for (int j = i; j < n; j++)
                 {
-                    subSet.Add(set[i]);
-                    tmp -= set[i];
+                    if (set[j] <= tmp)
+                    {
+                        tmp -= set[j];
+                        subSet.Add(set[j]);
+                    }
+                }
+                if (sum - tmp > summary)
+                {
+                    summary = sum - tmp;
+                    answer = new int[subSet.Count];
+                    subSet.CopyTo(answer);
+                    if (summary == sum) return 0;
                 }
             }
-            answer = new int[subSet.Count];
-            subSet.CopyTo(answer);
-            return tmp; //возвращаем погрешность
+            return sum - summary;
         }
        
 
